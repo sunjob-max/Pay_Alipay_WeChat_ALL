@@ -1,0 +1,123 @@
+# 开发环境配置
+server:
+  # 服务端口
+  port: 19091
+  servlet:
+    # 项目contextPath
+    context-path: /wechatApi
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 200
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 20
+
+# 日志配置
+logging:
+  level:
+    com.bj.business.mapper: trace
+
+# Spring配置
+spring:
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+  # 集群redis
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    #时效单位秒
+    expireSeconds: 3600
+    #redis操作的超时时间
+    commandTimeout: 10000
+    lettuce:
+      pool:
+        # 最大连接数
+        max-active: 100000
+        # 最小空闲连接数
+        min-idle: 5
+        # 最大空闲连接数
+        max-idle: 30
+        # 获取连接最大等待时间 ms  default -1
+        max-wait: -1ms
+  #    password: Root1234!
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    druid:
+      # 主库数据源(nullCatalogMeansCurrent=true 能解决activiti自动创建表失败)
+      master:
+        url: jdbc:mysql://locahost:3306/pay_ali_wechat
+        username: root
+        password: root
+      # 从库数据源
+      slave:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url:
+        username:
+        password:
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      statViewServlet:
+        enabled: true
+        url-pattern: /monitor/druid/*
+      filter:
+        stat:
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+
+# MyBatis
+mybatis:
+  # 搜索指定包别名
+#  typeAliasesPackage: com.bj.business.*
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mybatis/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis-config.xml
+
+## PageHelper分页插件
+#pagehelper:
+#  helperDialect: oracle
+#  reasonable: false
+#  supportMethodsArguments: true
+#  params: count=countSql
+
+
+snowflake:
+  # 工作ID (0~31)
+  idworker: 1
+  # 数据中心ID (0~31)
+  datacenterId: 5
+
+debug: true
